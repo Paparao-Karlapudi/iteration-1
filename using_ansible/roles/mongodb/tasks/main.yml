@@ -1,0 +1,21 @@
+- name: Copy fMongodb Repo File
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Install Mongodb
+  ansible.builtin.yum:
+    name: mongodb-org
+    state: installed
+
+- name: Open Listening Address
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Start service nginx
+  ansible.builtin.service:
+    name: mongod
+    state: restarted
+    enabled: yes
