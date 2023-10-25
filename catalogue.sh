@@ -34,9 +34,9 @@ cp ${configs}/files/catalogue.service /etc/systemd/system/catalogue.service &>>$
 statusmsg
 
 display "Enable Load and Starting Service"
-systemctl daemon-reload catalogue
-systemctl enable catalogue
-systemctl restart catalogue
+systemctl daemon-reload catalogue &>>${LOG}
+systemctl enable catalogue &>>${LOG}
+systemctl restart catalogue &>>${LOG}
 
 display "Setup mongodb client repo"
 cp ${configs}/files/mongodb.repo /etc/yum.repos.d/mongo.repo &>>${LOG}
@@ -46,6 +46,6 @@ display "Install mongodb repo"
 dnf install mongodb-org-shell -y &>>${LOG}
 statusmsg
 
-dispaly "Load Schema"
+display "Load Schema"
 mongo --host mongodb-dev.pappik.online </app/schema/catalogue.js &>>${LOG}
 statusmsg
