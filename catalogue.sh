@@ -21,6 +21,7 @@ mkdir -p /app
 
 display "Download the code"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>${LOG}
+rm -rf /app/*
 statusmsg
 
 cd /app
