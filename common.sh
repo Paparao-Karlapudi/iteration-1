@@ -151,9 +151,9 @@ Golang()
       statusmsg
 
   appli_prereq
-  go mod init dispatch
-  go get
-  go build
+  go mod init dispatch &>>${LOG}
+  go get &>>${LOG}
+  go build &>>${LOG}
 
   systemd_service
 }
