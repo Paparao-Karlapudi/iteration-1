@@ -45,9 +45,7 @@ appli_prereq()
 
   cd /app
 
-  display "Install the dependencies"
-  npm install &>>${LOG}
-  statusmsg
+
 }
 
 systemd_service()
@@ -90,7 +88,37 @@ Nodejs()
 
     appli_prereq
 
+   display "Install the dependencies"
+   npm install &>>${LOG}
+   statusmsg
+
     systemd_service
 
     schema_load
+}
+
+Maven()
+{
+  display " Install Maven"
+  dnf install maven -y &>>${LOG}
+  statusmsg
+
+  appli_prereq
+mvn clean package
+mv target/${component}-1.0.jar ${component}.jar
+
+systemd_service
+
+display " Install Mysql Client "
+  dnf install mysql -y &>>${LOG}
+  statusmsg
+
+display " Load the Schema "
+ mysql -h mysql-dev.pappik.online -uroot -pRoboShop@1 < /app/schema/${component}.sql
+  statusmsg
+
+display " Restarting Shipping Service "
+  systemctl restart shipping &>>${LOG}
+  statusmsg
+
 }
