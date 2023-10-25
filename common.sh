@@ -20,13 +20,6 @@ display()
 
 appli_prereq()
 {
-  display "Setup Nodejs Repo"
-  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${LOG}
-  statusmsg
-
-  display "Install Nodejs"
-  dnf install nodejs -y &>>${LOG}
-  statusmsg
 
   display "Adding Roboshop User"
   id roboshop &>>${LOG}
@@ -83,4 +76,21 @@ schema_load()
   mongo --host mongodb-dev.pappik.online </app/schema/${component}.js &>>${LOG}
   statusmsg
 
+}
+
+Nodejs()
+{
+  display "Setup Nodejs Repo"
+    curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${LOG}
+    statusmsg
+
+    display "Install Nodejs"
+    dnf install nodejs -y &>>${LOG}
+    statusmsg
+
+    appli_prereq
+
+    systemd_service
+
+    schema_load
 }

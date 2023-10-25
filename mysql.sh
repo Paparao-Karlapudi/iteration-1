@@ -20,7 +20,3 @@ statusmsg
 display "Change Root Password for Mysql"
 mysql_secure_installation --set-root-pass RoboShop@1 &>>${LOG}
 statusmsg
-
-display "Check the password updated or not"
-mysql -uroot -pRoboShop@1 &>>${LOG}
-statusmsg
