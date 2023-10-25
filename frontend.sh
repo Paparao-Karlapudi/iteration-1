@@ -35,7 +35,9 @@ display " download website content"
 curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip &>>${LOG}
 statusmsg
 
+cd /usr/share/nginx/html/
+
 display "unzip the content at location"
-unzip /tmp/frontend.zip /usr/share/nginx/html/ &>>${LOG}
+unzip /tmp/frontend.zip &>>${LOG}
 statusmsg
 
