@@ -1,3 +1,59 @@
-- name: Test Printing
-  ansible.builtin.debug:
-    msg: Hello from Catalogue
+- name: Configure Nodejs Repos
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+
+- name: Install Nodejs
+  ansible.builtin.yum:
+    name: nodejs
+    state: installed
+
+- name: Add the user Roboshop
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Remove old app content
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Create an app directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: Download and Unarchive catalogue content
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
+    dest: /app
+    remote_src: yes
+
+- name: Install Nodejs Dependencies
+  community.general.npm:
+    path: /app
+    state: latest
+
+- name: Copy catalogue service file
+  ansible.builtin.copy:
+    src: catalogue.service
+    dest: /etc/systemd/system/catalogue.service
+
+- name: Enable, Start, Daemon-reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+    state: restarted
+    enabled: yes
+
+- name: Copy Mongodb Repo File
+  ansible.builtin.copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Install Mongodb
+  ansible.builtin.yum:
+    name: mongodb-org-shell
+    state: installed
+
+- name: Load Schema
+  community.mongodb.mongodb_shell:
+    login_host: mongodb-dev.pappik.online
+    file: "/app/schema/catalogue.js"
+    idempotent: yes

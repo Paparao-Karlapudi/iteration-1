@@ -25,7 +25,7 @@
     path: /etc/share/nginx/html
     state: directory
 
-- name: Downlaod and Unarchive frontend content
+- name: Download and Unarchive frontend content
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
     dest: /usr/share/nginx/html
