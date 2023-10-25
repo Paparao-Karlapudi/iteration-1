@@ -1,3 +1,4 @@
+configs=$(pwd)
 LOG=/tmp/project1.log
 statusmsg()
 {
@@ -40,4 +41,13 @@ cd /usr/share/nginx/html/
 display "unzip the content at location"
 unzip /tmp/frontend.zip &>>${LOG}
 statusmsg
+
+display "copy the config file to its location"
+cp ${configs}/files/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>${LOG}
+statusmsg
+
+display "Restart nginx"
+systemctl restart nginx &>>${LOG}
+statusmsg
+
 
