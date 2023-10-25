@@ -127,3 +127,19 @@ display " Restarting Shipping Service "
   statusmsg
 
 }
+
+Python()
+{
+  display " Install Python "
+    dnf install python36 gcc python3-devel -y &>>${LOG}
+    statusmsg
+
+    appli_prereq
+
+  display " Pip 3.6 Install "
+    pip3.6 install -r requirements.txt &>>${LOG}
+    statusmsg
+
+  systemd_service
+
+}
