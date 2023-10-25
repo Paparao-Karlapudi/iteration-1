@@ -106,7 +106,7 @@ Maven()
   appli_prereq
 
 mvn clean package
-mv target/${component}-1.0.jar ${component}.jar
+mv target/${component}-1.0.jar ${component}.jar &>>${LOG}
 
 systemd_service
 
