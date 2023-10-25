@@ -33,7 +33,7 @@ appli_prereq()
   mkdir -p /app
 
   display "Download the code"
-  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${LOG}
+  curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${LOG}
   rm -rf /app/*
   statusmsg
 
@@ -105,7 +105,11 @@ Maven()
 
   appli_prereq
 
-mvn clean package
+display "Mvn Clean Package"
+mvn clean package &>>${LOG}
+statusmsg
+
+
 mv target/${component}-1.0.jar ${component}.jar &>>${LOG}
 
 systemd_service
