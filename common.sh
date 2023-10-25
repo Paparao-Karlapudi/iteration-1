@@ -104,6 +104,7 @@ Maven()
   statusmsg
 
   appli_prereq
+
 mvn clean package
 mv target/${component}-1.0.jar ${component}.jar
 
@@ -114,7 +115,7 @@ display " Install Mysql Client "
   statusmsg
 
 display " Load the Schema "
- mysql -h mysql-dev.pappik.online -uroot -pRoboShop@1 < /app/schema/${component}.sql
+ mysql -h mysql-dev.pappik.online -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${LOG}
   statusmsg
 
 display " Restarting Shipping Service "
