@@ -44,7 +44,7 @@ systemctl enable catalogue &>>${LOG}
 systemctl restart catalogue &>>${LOG}
 
 display "Setup mongodb client repo"
-cp ${configs}/files/mongodb.repo /etc/yum.repos.d/mongo.repo &>>${LOG}
+cp ${configs}/files/mongo.repo /etc/yum.repos.d/mongo.repo &>>${LOG}
 statusmsg
 
 display "Install mongodb repo"
