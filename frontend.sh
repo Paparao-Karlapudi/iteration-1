@@ -18,3 +18,24 @@ display()
 display "install nginx"
 dnf install nginx -y &>>${LOG}
 statusmsg
+
+display "start nginx"
+systemctl start nginx &>>${LOG}
+statusmsg
+
+display "enable nginx"
+systemctl enable nginx &>>${LOG}
+statusmsg
+
+display "remove old html content"
+rm -rf /usr/share/nginx/html/* &>>${LOG}
+statusmsg
+
+display " download website content"
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip &>>${LOG}
+statusmsg
+
+display "unzip the content at location"
+unzip /tmp/frontend.zip /usr/share/nginx/html/ &>>${LOG}
+statusmsg
+
