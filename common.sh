@@ -143,3 +143,17 @@ Python()
   systemd_service
 
 }
+
+Golang()
+{
+  display " Install Golang "
+      dnf install golang -y &>>${LOG}
+      statusmsg
+
+  appli_prereq
+  go mod init dispatch
+  go get
+  go build
+
+  systemd_service
+}
