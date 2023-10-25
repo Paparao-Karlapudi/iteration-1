@@ -5,7 +5,7 @@ curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${LOG}
 statusmsg
 
 display "Install Nodejs"
-dnf install nodejs &>>${LOG}
+dnf install nodejs -y &>>${LOG}
 statusmsg
 
 display "Adding Roboshop User"
