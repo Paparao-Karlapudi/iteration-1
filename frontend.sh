@@ -1,4 +1,4 @@
-
+source common.sh
 display "install nginx"
 dnf install nginx -y &>>${LOG}
 statusmsg

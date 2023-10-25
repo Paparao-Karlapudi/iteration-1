@@ -1,5 +1,6 @@
 configs=$(pwd)
 LOG=/tmp/project1.log
+
 statusmsg()
 {
 if [ $? -eq 0 ]; then
