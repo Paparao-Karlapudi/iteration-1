@@ -16,3 +16,71 @@ display()
 {
   echo -e "\e[35m$1\e[0m"
 }
+
+
+appli_prereq()
+{
+  display "Setup Nodejs Repo"
+  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${LOG}
+  statusmsg
+
+  display "Install Nodejs"
+  dnf install nodejs -y &>>${LOG}
+  statusmsg
+
+  display "Adding Roboshop User"
+  id roboshop &>>${LOG}
+  if [ $? -ne 0 ]
+  then
+  useradd roboshop
+  fi
+  statusmsg
+
+  display "making the directory"
+  mkdir -p /app
+
+  display "Download the code"
+  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${LOG}
+  rm -rf /app/*
+  statusmsg
+
+  cd /app
+
+  display "Unzip the code at app location"
+  unzip /tmp/${component}.zip &>>${LOG}
+  statusmsg
+
+  cd /app
+
+  display "Install the dependencies"
+  npm install &>>${LOG}
+  statusmsg
+}
+
+systemd_service()
+{
+  display "Copy the Systemd Service file"
+  cp ${configs}/files/${component}.service /etc/systemd/system/${component}.service &>>${LOG}
+  statusmsg
+
+  display "Enable Load and Starting Service"
+  systemctl daemon-reload ${component} &>>${LOG}
+  systemctl enable ${component} &>>${LOG}
+  systemctl start ${component} &>>${LOG}
+}
+
+schema_load()
+{
+  display "Setup mongodb client repo"
+  cp ${configs}/files/mongo.repo /etc/yum.repos.d/mongo.repo &>>${LOG}
+  statusmsg
+
+  display "Install mongodb repo"
+  dnf install mongodb-org-shell -y &>>${LOG}
+  statusmsg
+
+  display "Load Schema"
+  mongo --host mongodb-dev.pappik.online </app/schema/${component}.js &>>${LOG}
+  statusmsg
+
+}
