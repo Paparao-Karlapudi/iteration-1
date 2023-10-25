@@ -30,6 +30,8 @@ display "Unzip the code at app location"
 unzip /tmp/catalogue.zip &>>${LOG}
 statusmsg
 
+cd /app
+
 display "Install the dependencies"
 npm install &>>${LOG}
 statusmsg
@@ -41,7 +43,7 @@ statusmsg
 display "Enable Load and Starting Service"
 systemctl daemon-reload catalogue &>>${LOG}
 systemctl enable catalogue &>>${LOG}
-systemctl restart catalogue &>>${LOG}
+systemctl start catalogue &>>${LOG}
 
 display "Setup mongodb client repo"
 cp ${configs}/files/mongo.repo /etc/yum.repos.d/mongo.repo &>>${LOG}
