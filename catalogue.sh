@@ -9,7 +9,11 @@ dnf install nodejs -y &>>${LOG}
 statusmsg
 
 display "Adding Roboshop User"
+id roboshop
+if [ $? -ne 0]
+then
 useradd roboshop
+fi
 statusmsg
 
 display "making the directory"
