@@ -38,6 +38,7 @@
 
 - name: Enable, Start, Daemon-reload
   ansible.builtin.systemd:
+    name: catalogue
     daemon_reload: true
     state: restarted
     enabled: yes
