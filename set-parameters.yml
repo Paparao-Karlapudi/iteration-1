@@ -1,5 +1,5 @@
 - name: Create or update Parameters in AWS SSM parameter store
-  host: localhost
+  host: all
   connection: local
   tasks:
     - name: Create Parameters
