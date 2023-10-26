@@ -1,3 +1,10 @@
+- name: Install Python
+  ansible.builtin.yum:
+    name:
+    - python3-PyMySQL
+    - mysql
+    state: installed
+
 - name: Load Mysql schema
   community.mysql.mysql_db:
     state: import
