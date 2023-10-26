@@ -1,0 +1,43 @@
+- name: Create or update Parameters in AWS SSM parameter store
+  host: localhost
+  connection: local
+  tasks:
+    - name: Create Parameters
+      community.aws.aws_ssm_parameter_store:
+        name: "{{item.name}} "
+        value: "{{item.value}}"
+        region: us-east-1
+      loop:
+        - { name: "dev.cart.REDIS_HOST", value: "redis-dev.pappik.online" }
+        - { name: "dev.cart.CATALOGUE_HOST", value: "catalogue-dev.pappik.online" }
+        - { name: "dev.catalogue.MONGO", value: "true" }
+        - { name: "dev.catalogue.MONGO_URL", value: "mongodb://mongodb-dev.pappikr.in:27017/catalogue" }
+        - { name: "dev.frontend.CATALOGUE_URL", value: "http://catalogue-dev.pappik.online:8080/" }
+        - { name: "dev.frontend.USER_URL", value: "http://user-dev.pappik.online:8080/" }
+        - { name: "dev.frontend.CART_URL", value: "http://cart-dev.pappik.online:8080/" }
+        - { name: "dev.frontend.SHIPPING_URL", value: "http://shipping-dev.pappik.online:8080/" }
+        - { name: "dev.frontend.PAYMENT_URL", value: "http://payment-dev.pappik.online:8080/" }
+        - { name: "dev.payment.CART_HOST", value: "cart-dev.pappik.online" }
+        - { name: "dev.payment.USER_HOST", value: "user-dev.pappik.online" }
+        - { name: "dev.payment.CART_PORT", value: "8080" }
+        - { name: "dev.payment.USER_PORT", value: "8080" }
+        - { name: "dev.payment.AMQP_HOST", value: "rabbitmq-dev.pappik.online" }
+        - { name: "dev.payment.AMQP_USER", value: "roboshop" }
+        - { name: "dev.payment.CART_ENDPOINT", value: "cart-dev.pappik.online:8080" }
+        - { name: "dev.payment.DB_HOST", value: "mysql-dev.pappik.online" }
+        - { name: "dev.user.MONGO", value: "true" }
+        - { name: "dev.user.MONGO_URL", value: "mongodb://mongodb-dev.pappik.online:27017/users" }
+        - { name: "dev.user.REDIS_HOST", value: "redis-dev.pappik.online" }
+
+    ## Passwords should never be held in these repos, should be created manually but for the lab purpose we are creating them here
+    - name: create secrets
+      community.aws.aws_ssm_parameter_store:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        region: us-east-1
+        string_type: "SecureString"
+      loop:
+        - {name: "dev.payment.AMQP_PASS", value: "roboshop123" }
+        - {name: "dev.rabbitmq.AMQP_PASS", value: "roboshop123" }
+        - {name: "dev.mysql.DB_ADMIN_USER", value: "root" }
+        - {name: "dev.mysql.DB_ADMIN_PASS", value: "RoboShop@1" }
