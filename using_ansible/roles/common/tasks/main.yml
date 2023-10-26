@@ -1,3 +1,0 @@
-- name: Set Hostname
-  ansible.builtin.shell: sudo set-hostname {{component}}
-  ignore_errors: true
