@@ -14,3 +14,7 @@
     requirements: /app/requirements.txt
     executable: pip3.6
 
+- name: Systemd Service file Loading
+  ansible.builtin.include_tasks: systemd.yml
+
+
