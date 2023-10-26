@@ -1,0 +1,53 @@
+#source common.sh
+#
+#display "Configure Yum repos for Script"
+#curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>${LOG}
+#statusmsg
+#
+#display "Configure Yum Repos for Rabbitmq"
+#curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>${LOG}
+#statusmsg
+#
+#display "Install Rabbitmq"
+#dnf install rabbitmq-server -y &>>${LOG}
+#statusmsg
+#
+#display "Enable and Start Rabbitmq"
+#systemctl enable rabbitmq-server &>>${LOG}
+#systemctl start rabbitmq-server  &>>${LOG}
+#statusmsg
+#
+#display "Adding user and Permissions to Rabbitmq"
+#rabbitmqctl add_user roboshop roboshop123 &>>${LOG}
+#rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>>${LOG}
+#statusmsg
+
+- name: Configure Yum Repos
+  ansible.builtin.shell: curl -s {{item}} | bash
+  loop:
+    - https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh
+    - https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh
+
+- name: Install rabbitmq and erlang
+  ansible.builtin.yum:
+    name:
+    - rabbitmq-server
+    - erlang
+    state: installed
+
+- name: Start and Enable Rabbitmq Server
+  ansible.builtin.systemd:
+    name: rabbitmq-server
+    enabled: yes
+    state: restarted
+
+- name: Change Rabbitmq user and Give Permissions
+  community.rabbitmq.rabbitmq_user:
+    user: roboshop
+    password: "{{roboshop_rabbitmq_password}}"
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present
+    tags: administrator
