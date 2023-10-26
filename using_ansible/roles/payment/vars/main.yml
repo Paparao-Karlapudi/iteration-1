@@ -1,3 +1,2 @@
-component: shipping
+component: payment
 schema_load: true
-schema_type: mysql
