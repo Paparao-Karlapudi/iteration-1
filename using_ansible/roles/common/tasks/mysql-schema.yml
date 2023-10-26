@@ -10,6 +10,6 @@
     state: import
     name: all
     target: /app/schema/{{component}}.sql
-    login_host: myqsql-dev.pappik.online
+    login_host: mysql-dev.pappik.online
     login_user: root
     login_password: "{{mysql_root_password}}"
